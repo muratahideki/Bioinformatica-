@@ -1,17 +1,15 @@
-molde2dna = sequence
-#duplication
 def duplication(molde2dna):
-    molde2dna.replace("A","T")
-    molde2dna.replace("T","A")
-    molde2dna.replace("C","G")
-    molde2dna.replace("G","C")
+    molde2dna = molde2dna.replace("A", "t")
+    molde2dna = molde2dna.replace("T", "a")
+    molde2dna = molde2dna.replace("C", "g")
+    molde2dna = molde2dna.replace("G", "c")
+    # Troca para maiúsculas para o resultado final
+    return molde2dna.upper()
 
-    return molde2dna
-
-#transcription
-molde2rna = sequence 
 def transcription(molde2rna):
-    molde2rna.replace("A","U")
-    molde2rna.replace("T","A")
-    molde2rna.replace("C","G")
-    molde2rna.replace("G","C")
+    molde2rna = molde2rna.replace("A", "u")
+    molde2rna = molde2rna.replace("T", "a")
+    molde2rna = molde2rna.replace("C", "g")
+    molde2rna = molde2rna.replace("G", "c")
+    # Troca para maiúsculas para o resultado final
+    return molde2rna.upper()
