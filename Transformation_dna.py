@@ -1,4 +1,4 @@
-molde2dna = sequence
+# molde2dna = sequence
 #duplication
 def duplication(molde2dna):
     molde2dna.replace("A","T")
@@ -9,7 +9,7 @@ def duplication(molde2dna):
     return molde2dna
 
 #transcription
-molde2rna = sequence 
+# molde2rna = sequence 
 def transcription(molde2rna):
     molde2rna.replace("A","U")
     molde2rna.replace("T","A")
