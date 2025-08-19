@@ -1,4 +1,4 @@
-from Transformation_dna.py import duplication 
+from Transformation_dna import duplication 
 
 def test_duplication_adenina():
   assert duplication("A") == "T"
