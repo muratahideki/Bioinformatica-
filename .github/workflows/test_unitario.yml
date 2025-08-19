@@ -2,9 +2,9 @@ name: Testes de Python
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "testes-unitarios" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "testes-unitarios" ]
 
 jobs:
   build:
