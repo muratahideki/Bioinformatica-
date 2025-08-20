@@ -2,9 +2,9 @@
 #duplication
 
 def duplication(molde_dna):
-    sequencia = {A:T, T:A, C:G, G:C}
+    sequencia = {'A':'T', 'T':'A', 'C':'G', 'G':'C'}
     fita_duplicada = ""
-    for base in fita_DNA:
+    for base in molde_dna:
         fita_duplicada += sequencia[base]
     return fita_duplicada
 
