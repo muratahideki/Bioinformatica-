@@ -1,12 +1,12 @@
-# molde2dna = sequence
+# molde_dna = sequence
 #duplication
-def duplication(molde2dna):
-    molde2dna.replace("A","T")
-    molde2dna.replace("T","A")
-    molde2dna.replace("C","G")
-    molde2dna.replace("G","C")
 
-    return molde2dna
+def duplication(molde_dna):
+    sequencia = {A:T, T:A, C:G, G:C}
+    fita_duplicada = ""
+    for base in fita_DNA:
+        fita_duplicada += sequencia[base]
+    return fita_duplicada
 
 #transcription
 # molde2rna = sequence 
