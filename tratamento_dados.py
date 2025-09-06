@@ -4,6 +4,8 @@ list_codon =  [sequencia[i:i+3] for i in range(0,len(sequencia)-len(sequencia)%3
 codon_start = 'ATG'
 codon_stop = 'TAA', 'TAG', 'TGA'
 
+def inv(sequencia):
+    return sequencia[::-1]
 
 def pos_codon(list_codon, codon):
     codon_position = []
