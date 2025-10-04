@@ -4,11 +4,18 @@
 Estudo de Oryza sativa 
 
 ## Métodos<br>
-1. Levantamento e escolha de dados públicos:<br>
+1. Levantamento e escolha de dados públicos e pré processamento de dados:<br>
  - Localizar conjuntos de dados RNA-Seq públicos no NCBI GEO ou SRA relacionados a
 plantas sob estresse.
  - Justificar a escolha do experimento.
 
-Para realizar isso foi realizado o download do arquivo FASTA no [National Library of Medicine](https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=run_browser&acc=SRR30542639&display=download) que foi refenciados pelo [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE276295)
+Para realizar isso foi realizado o download do arquivo FASTA no [National Library of Medicine](https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=run_browser&acc=SRR30542639&display=download) que foi refenciados pelo [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE276295)<br>
+No caso, foi usado o banco de dados do NCBI SRA de código de acesso [SRP302030](https://www.ncbi.nlm.nih.gov/sra/?term=SRP302030.)
+
+1.1 FATQC
+Foi baixado os arquivos Fastq no formato gz. e usado a flag:<br>
+`fastqc` `nome do arquivo(pode ser mais de um)` `-o diretório de destino/`<br>
+
+ - Isso vai gerar um arquivo html. 
 
 ## Resultados<br>
