@@ -1,0 +1,23 @@
+## O que são adaptadores em RNA-Seq (ou qualquer NGS Illumina)?
+
+Quando o cDNA (ou DNA) é preparado para sequenciamento, ele é fragmentado. Mas a máquina Illumina não consegue ler fragmentos de DNA soltos: é preciso dar a eles uma "etiqueta" para que a plataforma reconheça, amplifique e leia cada molécula.<br>
+Essa “etiqueta” são os adaptadores.<br>
+Eles são pequenas sequências sintéticas de DNA que são ligadas (coladas) nas extremidades dos fragmentos da sua amostra.
+
+## Funções principais dos adaptadores
+
+- Reconhecimento na flow cell (chip de sequenciamento) → Os adaptadores têm regiões que se ligam quimicamente à superfície da flow cell da Illumina, fixando o DNA/cDNA para que ele seja amplificado e lido.
+- Primers para PCR e sequenciamento → Dentro dos adaptadores existem sequências conhecidas que servem de ponto de ancoragem para os primers usados tanto na amplificação da biblioteca quanto no sequenciamento em si.
+- Índices (barcodes) → Muitas vezes os adaptadores carregam sequências de “códigos de barras” (index sequences), que permitem misturar várias amostras no mesmo sequenciamento (multiplexing) e depois separar cada uma computacionalmente.
+
+## Por que remover adaptadores dos reads?
+
+Durante o sequenciamento, se um fragmento de DNA/cDNA for muito curto, a máquina pode acabar lendo além do fragmento e invadindo a região do adaptador.
+Isso gera sequências artificiais (não biológicas) no final dos reads.
+
+Se você não remover isso:<br>
+- Vai atrapalhar o alinhamento (o read pode não mapear corretamente).
+- Pode gerar falsos positivos em análises downstream.
+
+Por isso ferramentas como Trimmomatic ou Cutadapt usam esses arquivos (TruSeq3-PE.fa etc.) que contêm as sequências conhecidas dos adaptadores Illumina, para localizar e cortar esses trechos indesejados.
+  
