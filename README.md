@@ -66,6 +66,37 @@ Foi baixado os arquivos Fastq no formato gz. e usado a flag:<br>
 - As bibliotecas de RNA-Seq foram preparadas com o Illumina mRNA-Seq Sample Preparation v2 kit, e os fragmentos de cDNA foram ligados a adaptadores de sequenciamento da Illumina
 - Isso significa que, para fazer o trimming dos dados (por exemplo, no Trimmomatic ou Cutadapt), você deve usar os adaptadores padrão da Illumina TruSeq (presentes no próprio pacote do Trimmomatic, no arquivo TruSeq3-PE.fa ou TruSeq3-SE.fa).
 
+- algoritimo:
+```bash
+trimmomatic PE [opções] \
+  <entrada_R1> <entrada_R2> \
+  <saida_paired_R1> <saida_unpaired_R1> \
+  <saida_paired_R2> <saida_unpaired_R2> \
+  [adaptador]
+  [filtros e parâmetros]
+```
+Adaptador:
+- ILLUMINACLIP:<arquivo_fasta>:2:30:10 → remove adaptadores Illumina.
+- <arquivo_fasta> = arquivo de adaptadores (TruSeq3-PE.fa para paired-end).
+- 2:30:10 = parâmetros de corte (mismatch, palindrome clip, simple clip).
+
+- proposição:
+```bash
+trimmomatic PE -threads 10 \
+  aSRR13447971.fastq.gz  \
+  aSRR13447971.fastq.gz aSRR13447971.fastq.gz \
+  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 \
+  LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:50
+```
+Filtro:
+- LEADING:3 → corta bases com qualidade <3 no início da leitura
+- TRAILING:3 → corta bases com qualidade <3 no final da leitura
+- SLIDINGWINDOW:4:15 → verifica uma janela de 4 bases, corta se a média <15
+- MINLEN:36 → descarta leituras menores que 36 bases após o corte
+
+
+
+  
 #### O que são adaptadores em RNA-Seq (ou qualquer NGS Illumina)?
 
 Quando o cDNA (ou DNA) é preparado para sequenciamento, ele é fragmentado. Mas a máquina Illumina não consegue ler fragmentos de DNA soltos: é preciso dar a eles uma "etiqueta" para que a plataforma reconheça, amplifique e leia cada molécula.<br>
