@@ -38,3 +38,9 @@ conda install -c bioconda samtools
  ``` bash
  conda create -n ngs_env -c bioconda -c conda-forge trimmomatic fastqc multiqc cutadapt samtools bwa
  ```
+- como o arquivo é paired-end, e os dois sentidos estão misturados no mesmo arquivo preciso instalar sra-tools para usar o fasterqc
+- o fasterqc vai separa o arquivo fasta em dois sentidos de leitura: o direto e o reverso 
+
+```bash
+conda install -c bioconda sra-tools
+```
