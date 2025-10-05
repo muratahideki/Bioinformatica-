@@ -15,8 +15,8 @@ Faz mais sentido escolher o método com Histat2, pelos seguintes motivos:
 
 - precisa criar arquivos Fasta, a partir dos arquivos FASTQ
 ```bash
-seqtk seq -a SRR13447971_1.fastq > SRR13447971_1.fasta
-seqtk seq -a SRR13447971_2.fastq > SRR13447971_2.fasta
+seqtk seq -a SRR13447971.man_1_fastqc > SRR13447971_1.fasta
+seqtk seq -a SRR13447971.man_2.fastq > SRR13447971_2.fasta
 ``` 
 - precisa indexar o arquivo Fasta
 ```bash 
