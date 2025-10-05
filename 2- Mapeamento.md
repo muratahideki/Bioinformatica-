@@ -11,12 +11,18 @@ Faz mais sentido escolher o método com Histat2, pelos seguintes motivos:
 | Leituras longas          | Bom                            | Excelente                             |
 | Quando usar              | PC limitado / análises simples | Projetos grandes / alta sensibilidade |
 
-### Preparação do ambiente <br>
+### Preparação<br>
 
-- precisa criar arquivos Fasta agora
+- precisa criar arquivos Fasta, a partir dos arquivos FASTQ
 ```bash
-SRR13447971.man
-``
+seqtk seq -a SRR13447971_1.fastq > SRR13447971_1.fasta
+seqtk seq -a SRR13447971_2.fastq > SRR13447971_2.fasta
+``` 
+- precisa indexar o arquivo Fasta
+```bash 
+hisat2-build SRR13447971_1.fasta genome_index
+hisat2-build SRR13447971_2.fasta genome_index
+```
 
 ### Alinhar com HISAT2
 
