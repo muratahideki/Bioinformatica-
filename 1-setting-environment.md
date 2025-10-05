@@ -43,4 +43,5 @@ conda install -c bioconda samtools
 
 ```bash
 conda install -c bioconda sra-tools
+conda install -c bioconda hisat2
 ```
