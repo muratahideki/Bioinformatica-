@@ -1,0 +1,9 @@
+## Arquivos gerados:
+
+- SRR1344797_1_trimmed.fastq.gz: Contém os reads do R1 que permaneceram pareados após o trimming.
+
+- SRR1344797_1_unpaired.fastq.gz: Contém reads do R1 que perderam o par após o trimming (ou seja, o read 2 correspondente foi descartado).
+
+- SRR1344797_2_trimmed.fastq.gz: Contém os reads do R2 que permaneceram pareados.
+
+- SRR1344797_2_unpaired.fastq.gz: Contém reads do R2 que perderam o par.
