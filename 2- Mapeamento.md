@@ -12,7 +12,11 @@ Faz mais sentido escolher o método com Histat2, pelos seguintes motivos:
 | Quando usar              | PC limitado / análises simples | Projetos grandes / alta sensibilidade |
 
 ### Preparação do ambiente <br>
-conda install -c bioconda hisat2
+
+- precisa criar arquivos Fasta agora
+```bash
+SRR13447971.man
+``
 
 ### Alinhar com HISAT2
 
