@@ -16,6 +16,9 @@ Faz mais sentido escolher o método com Histat2, pelos seguintes motivos:
 - precisa indexar o arquivo Fasta do genoma de referência 
 ```bash 
 hisat2-build SofficinarumxspontaneumR570_771_v2.0.softmasked.fa sugarcane_index
+hisat2-build SofficinarumxspontaneumR570_771_v2.0.softmasked.fa indice
+hisat2 -x indice -U reads.fastq -S saida.sam
+
 ```
 - Isso vai gerar alguns arquivos de referência:
 
@@ -31,6 +34,7 @@ Se quiser usar locais conhecidos de splicing, você pode gerar um arquivo de spl
 
 ```
 hisat2_extract_splice_sites.py SofficinarumxspontaneumR570_771_v2.1.gene.gff3 > splicesites.txt
+
 ```
 
 ### Alinhar com HISAT2
