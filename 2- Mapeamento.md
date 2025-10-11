@@ -13,20 +13,30 @@ Faz mais sentido escolher o método com Histat2, pelos seguintes motivos:
 
 ### Preparação<br>
 
-- precisa criar arquivos Fasta, a partir dos arquivos FASTQ
-```bash
-seqtk seq -a SRR13447971.man_1.fastq > SRR13447971_1.fasta
-seqtk seq -a SRR13447971.man_2.fastq > SRR13447971_2.fasta
-``` 
-- precisa indexar o arquivo Fasta
+- precisa indexar o arquivo Fasta do genoma de referência 
 ```bash 
-hisat2-build SRR13447971_1.fasta genome_index
-hisat2-build SRR13447971_2.fasta genome_index
+hisat2-build SofficinarumxspontaneumR570_771_v2.0.softmasked.fa sugarcane_index
 ```
+- Isso vai gerar alguns arquivos de referência:
+
+```
+sugarcane_index.1.ht2
+sugarcane_index.2.ht2
+...
+sugarcane_index.8.ht2
+```
+- (Opcional) Usar a anotação no alinhamento
+
+Se quiser usar locais conhecidos de splicing, você pode gerar um arquivo de splice sites a partir do GFF3:
+
+hisat2_extract_splice_sites.py SofficinarumxspontaneumR570_771_v2.1.gene.gff3 > splicesites.txt
 
 ### Alinhar com HISAT2
 
 ```bash
-hisat2 -x SRR1344797_1_trimmed.fastq.gz -1 SRR1344797_2_trimmed.fastq.gz -2 sample_R2.fastq -S output.sam -p
+hisat2 -x sugarcane_index \
+  --known-splicesite-infile splicesites.txt \
+  -1 SRR13447971_1.fastq.gz -2 SRR13447971_2.fastq.gz \
+  -S output.sam -p 4
 ```
 - -S output.sam -p: arquivo de saída 
