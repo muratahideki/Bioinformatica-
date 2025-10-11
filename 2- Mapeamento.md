@@ -29,7 +29,9 @@ sugarcane_index.8.ht2
 
 Se quiser usar locais conhecidos de splicing, você pode gerar um arquivo de splice sites a partir do GFF3:
 
+```
 hisat2_extract_splice_sites.py SofficinarumxspontaneumR570_771_v2.1.gene.gff3 > splicesites.txt
+```
 
 ### Alinhar com HISAT2
 
