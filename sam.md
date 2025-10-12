@@ -1,9 +1,15 @@
+## SAM
+
 
 -  o arquivo .sam é legível
 -  o arquivo .bam é binário, mas é menos pesado
   
-```bash
+``` bash
 samtools view -S -b saida.sam > arquivo.bam
 samtools sort arquivo.bam -o arquivo_sorted.bam
 samtools index arquivo_sorted.bam
 ```
+
+- `samtools sort` Ordena o BAM por posição no genoma
+- Muitos programas de análise (ex: bcftools, featureCounts, IGV, samtools index) só funcionam com arquivos BAM ordenados.
+- A ordenação permite acesso rápido a regiões específicas do genoma (ex: “mostre apenas o cromossomo 3, posição 5M–6M”).
