@@ -45,4 +45,5 @@ conda install -c bioconda samtools
 conda install -c bioconda sra-tools
 conda install -c bioconda hisat2
 conda install -c bioconda subread
+conda install bioconductor-deseq2
 ```
