@@ -21,3 +21,6 @@ plantas sob estresse.<br>
 • Identificar genes diferencialmente expressos com log2FC e p-valor ajustado.<br>
 • Realizar enriquecimento funcional (GO terms ou KEGG pathways) com g:Profiler ou DAVID.<br>
 • Interpretar os resultados biológicos.<br>
+
+amostras:
+name: 3b_S5_rep2
