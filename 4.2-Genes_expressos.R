@@ -15,7 +15,7 @@ if (!requireNamespace("pheatmap", quietly = TRUE))
 library(DESeq2)
 library(pheatmap)
 
-# 2️⃣ Ler arquivo counts do featureCounts
+# Ler arquivo counts do featureCounts
 counts <- read.table("counts.txt",
                      header=TRUE,
                      sep="\t",
@@ -28,32 +28,32 @@ counts_matrix <- counts[, c("IPT", "NIPT")]
 # Verifica
 head(counts_matrix)
 
-# 3️⃣ Criar colData para as 2 amostras
+# Criar colData para as 2 amostras
 colData <- data.frame(
   condition = factor(c("IPT","NIPT"))
 )
 rownames(colData) <- colnames(counts_matrix)
 
-# 4️⃣ Criar objeto DESeqDataSet
+#  Criar objeto DESeqDataSet
 dds <- DESeqDataSetFromMatrix(
   countData = counts_matrix,
   colData = colData,
   design = ~1  # sem replicatas, apenas normalização
 )
 
-# 5️⃣ Normalizar os dados
+#  Normalizar os dados
 dds <- estimateSizeFactors(dds)
 normalized_counts <- counts(dds, normalized=TRUE)
 
 # Salvar contagens normalizadas
 write.csv(normalized_counts, "normalized_counts.csv", row.names=TRUE)
 
-# 6️⃣ Calcular log2 fold-change manualmente
+# Calcular log2 fold-change manualmente
 log2fc <- log2(normalized_counts[, "IPT"] / normalized_counts[, "NIPT"])
 log2fc_df <- data.frame(Gene=rownames(normalized_counts), log2FoldChange=log2fc)
 write.csv(log2fc_df, "log2FoldChange.csv", row.names=FALSE)
 
-# 7️⃣ Heatmap dos top 20 genes
+# Heatmap dos top 20 genes
 top_genes <- head(order(abs(log2fc), decreasing=TRUE), 20)
 
 # PNG
