@@ -1,0 +1,40 @@
+
+## Normalização
+### Normalização por tamanho da biblioteca (Size Factor Normalization)
+
+```R
+#  Normalizar os dados
+dds <- estimateSizeFactors(dds)
+normalized_counts <- counts(dds, normalized=TRUE)
+```
+
+Antes de qualquer transformação, o DESeq2 calcula um fator de normalização (size factor) para cada amostra, de modo que as contagens fiquem comparáveis.
+
+Ele resolve o seguinte problema:
+
+| Gene  | Amostra A | Amostra B |
+| ----- | --------- | --------- |
+| Gene1 | 1000      | 2000      |
+| Gene2 | 500       | 1000      |
+| Gene3 | 50        | 100       |
+
+Aparentemente, todos os genes da amostra B têm o dobro das contagens da amostra A.
+Mas isso não significa que eles estão mais expressos — pode ser apenas que a amostra B teve o dobro de reads sequenciados (ou seja, foi mais profundamente sequenciada).
+
+O DESeq2 calcula um fator de escala (chamado size factor) para cada amostra, que corrige esse tipo de diferença.
+
+Como o fator é calculado (intuitivamente)
+
+O DESeq2 faz isso assim:
+
+Para cada gene, calcula a mediana geométrica das contagens em todas as amostras.
+→ Essa mediana representa a “expressão típica” do gene no experimento.
+
+Para cada amostra, divide a contagem de cada gene pela mediana geométrica daquele gene.
+→ Isso dá uma série de razões (quanto maior o valor, mais profunda a amostra parece).
+
+O fator de tamanho (size factor) da amostra é a mediana dessas razões.
+
+Fórmula simplificada:
+
+
