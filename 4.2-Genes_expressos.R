@@ -2,7 +2,7 @@
 # Script DESeq2 completo com visualizações
 #--------------------------------------
 
-# 1️⃣ Instalar e carregar pacotes
+# Instalar e carregar pacotes
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
