@@ -17,7 +17,7 @@ plantas sob estresse.<br>
 • Realizar análise de expressão diferencial com DESeq2 ou EdgeR em R.<br>
 • Gerar gráficos: MA plot, heatmap, PCA.<br>
 
-6. Anotação e interpretação funcional:<br>
+6. Anotação e interpretação funcional (ROADMAP):<br>
 • Identificar genes diferencialmente expressos com log2FC e p-valor ajustado.<br>
 • Realizar enriquecimento funcional (GO terms ou KEGG pathways) com g:Profiler ou DAVID.<br>
 • Interpretar os resultados biológicos.<br>
