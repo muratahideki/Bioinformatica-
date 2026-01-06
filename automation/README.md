@@ -1,13 +1,13 @@
 ## Estrutura do projeto 
 
-automation/
-├── environment.yml
-├── setup.sh
-├── pipeline.sh
-├── data/
-│   ├── raw/
-│   ├── trimmed/
-│   ├── aligned/
-│   └── counts/
-└── results/
+automation/<br>
+├── environment.yml<br>
+├── setup.sh<br>
+├── pipeline.sh<br>
+├── data/<br>
+│   ├── raw/<br>
+│   ├── trimmed/<br>
+│   ├── aligned/<br>
+│   └── counts/<br>
+└── results/<br>
 
