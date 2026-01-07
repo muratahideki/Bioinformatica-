@@ -17,7 +17,6 @@ RESULTS_NIPT_SPLIT_FILE="data/raw/NIPT/RESULTS"
 TRIM_DIR_IPT="data/trimmed/IPT"
 TRIM_DIR_NIPT="data/trimmed/NIPT"
 
-QC_DIR="results/fastqc"
 ALIGN_DIR="results/aligned"
 COUNT_DIR="results/counts"
 
@@ -38,7 +37,7 @@ mkdir -p \
   $RESULTS_IPT_SPLIT_FILE $RESULTS_NIPT_SPLIT_FILE \
   $TRIM_DIR_IPT $TRIM_DIR_NIPT \
   $ALIGN_DIR $COUNT_DIR \
-  $GENOME_INDEX
+  "$(dirname "$GENOME_INDEX")"
 
 echo "Diretórios criados"
 
@@ -142,7 +141,9 @@ rm -f "$TRIM_DIR_NIPT"/*_unpaired.fastq.gz
 # ===============================
 
 # download do genoma
-curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --output download.20260106.211503.zip -d "{\"ids\":{\"Phytozome-771\":{\"file_ids\":[\"642da257ed041a78f31f89b2\",\"642da256ed041a78f31f899c\"],\"top_hit\":\"642da256ed041a78f31f89a4\"}},\"api_version\":\"2\"}" -H "Content-Type: application/json" https://files-download.jgi.doe.gov/filedownload/
+if [[ ! -f "$genoma" ]]; then
+  curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --output download.20260106.211503.zip -d "{\"ids\":{\"Phytozome-771\":{\"file_ids\":[\"642da257ed041a78f31f89b2\",\"642da256ed041a78f31f899c\"],\"top_hit\":\"642da256ed041a78f31f89a4\"}},\"api_version\":\"2\"}" -H "Content-Type: application/json" https://files-download.jgi.doe.gov/filedownload/
+fi
 unzip download.20260106.211503.zip
 
 arquivos="Phytozome/PhytozomeV13/SofficinarumxspontaneumR570/v2.1"
@@ -155,7 +156,10 @@ fi
 genoma="${genoma%.gz}"
 
 #download anotation
-curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --output download.20260106.220955.zip -d "{\"ids\":{\"Phytozome-771\":{\"file_ids\":[\"642da256ed041a78f31f899a\"],\"top_hit\":\"642da256ed041a78f31f89a4\"}},\"api_version\":\"2\"}" -H "Content-Type: application/json" https://files-download.jgi.doe.gov/filedownload/
+if [[ ! -f "$genoma" ]]; then
+  curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --output download.20260106.220955.zip -d "{\"ids\":{\"Phytozome-771\":{\"file_ids\":[\"642da256ed041a78f31f899a\"],\"top_hit\":\"642da256ed041a78f31f89a4\"}},\"api_version\":\"2\"}" -H "Content-Type: application/json" https://files-download.jgi.doe.gov/filedownload/
+fi
+
 unzip download.20260106.220955.zip
 pasta_annotation="$arquivos"/annotation
 annotation="$pasta_annotation"/SofficinarumxspontaneumR570_771_v2.1.gene.gff3.gz
