@@ -21,6 +21,9 @@ QC_DIR="results/fastqc"
 ALIGN_DIR="results/aligned"
 COUNT_DIR="results/counts"
 
+GENOME_INDEX="automation/hisat2/genome_index"
+GTF="automation/annotation.gtf"
+
 # ===============================
 # ATIVAR CONDA
 # ===============================
@@ -36,8 +39,6 @@ mkdir -p \
   $TRIM_DIR_IPT $TRIM_DIR_NIPT \
   $ALIGN_DIR $COUNT_DIR \
   $GENOME_INDEX
-
-mkdir -p hisat2
 
 echo "Diretórios criados"
 
@@ -140,9 +141,6 @@ rm -f "$TRIM_DIR_NIPT"/*_unpaired.fastq.gz
 # Mapeamento-  Hisat2
 # ===============================
 
-GENOME_INDEX="automation/hisat2/genome_index"
-GTF="automation/annotation.gtf"
-
 # download do genoma
 curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --output download.20260106.211503.zip -d "{\"ids\":{\"Phytozome-771\":{\"file_ids\":[\"642da257ed041a78f31f89b2\",\"642da256ed041a78f31f899c\"],\"top_hit\":\"642da256ed041a78f31f89a4\"}},\"api_version\":\"2\"}" -H "Content-Type: application/json" https://files-download.jgi.doe.gov/filedownload/
 unzip download.20260106.211503.zip
@@ -151,7 +149,9 @@ arquivos="Phytozome/PhytozomeV13/SofficinarumxspontaneumR570/v2.1"
 
 pasta_genoma="$arquivos"/assembly
 genoma="$pasta_genoma"/SofficinarumxspontaneumR570_771_v2.0.softmasked.fa.gz
-gunzip $genoma
+if [[ -f "$genoma" ]]; then
+  gunzip "$genoma"
+fi
 genoma="${genoma%.gz}"
 
 #download anotation
@@ -159,17 +159,21 @@ curl --cookie jgi_session=/api/sessions/72c8fbec4d695cdee2d873b55b50b2e2 --outpu
 unzip download.20260106.220955.zip
 pasta_annotation="$arquivos"/annotation
 annotation="$pasta_annotation"/SofficinarumxspontaneumR570_771_v2.1.gene.gff3.gz
-gunzip $annotation
+if [[ -f "$annotation" ]]; then
+  gunzip "$annotation"
+fi
 annotation="${annotation%.gz}"
+cp "$annotation" "$GTF"
 
 # build 
-hisat2-build \
--p $THREADS \
-"$genoma" \
-$GENOME_INDEX
+if [[ ! -f "${GENOME_INDEX}.1.ht2" ]]; then
+  hisat2-build -p "$THREADS" "$genoma" "$GENOME_INDEX"
+fi
+
+rm -f download.*.zip
 
 # ===============================
-# aLINHAMENTO ipt
+# aLINHAMENTO 
 # ===============================
 echo "🧬 Alinhando IPT com HISAT2"
 
@@ -205,3 +209,55 @@ for R1 in "$TRIM_DIR_NIPT"/*_1_paired.fastq.gz; do
   | samtools view -@ $THREADS -bS - > "$ALIGN_DIR/NIPT/${SAMPLE}.bam"
 
 done
+
+# ===============================
+# SORT e indexação DO BAM IPT
+# ===============================
+
+mkdir -p "$ALIGN_DIR/IPT/SORTED"
+
+for BAM in "$ALIGN_DIR/IPT"/*.bam; do
+  SAMPLE=$(basename "$BAM" .bam)
+  
+  samtools sort -@ $THREADS "$BAM" \
+  -o "$ALIGN_DIR/IPT/SORTED/${SAMPLE}_sorted.bam"
+  samtools index "$ALIGN_DIR/IPT/SORTED/${SAMPLE}_sorted.bam"
+
+done
+
+for Sorted in "$ALIGN_DIR/IPT/SORTED"/*_sorted.bam; do  
+  samtools flagstat "$Sorted" > "${Sorted%.bam}.flagstat.txt"
+done
+
+# ===============================
+# SORT DO BAM NIPT
+# ===============================
+mkdir -p "$ALIGN_DIR/NIPT/SORTED"
+
+for BAM in "$ALIGN_DIR/NIPT"/*.bam; do
+  SAMPLE=$(basename "$BAM" .bam)
+  
+  samtools sort -@ $THREADS "$BAM" \
+  -o "$ALIGN_DIR/NIPT/SORTED/${SAMPLE}_sorted.bam"
+  samtools index "$ALIGN_DIR/NIPT/SORTED/${SAMPLE}_sorted.bam"
+done
+
+for Sorted in "$ALIGN_DIR/NIPT/SORTED"/*_sorted.bam; do  
+  samtools flagstat "$Sorted" > "${Sorted%.bam}.flagstat.txt"
+done
+
+# ===============================
+# CONTAGEM 
+# ===============================
+
+featureCounts \
+  -T "$THREADS" \
+  -a "$GTF" \
+  -o "$COUNT_DIR/counts_all.txt" \
+  -p -B -C \
+  -t exon \
+  -g Parent \
+  "$ALIGN_DIR/IPT/SORTED/"*_sorted.bam \
+  "$ALIGN_DIR/NIPT/SORTED/"*_sorted.bam
+
+
